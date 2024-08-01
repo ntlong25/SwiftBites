@@ -85,9 +85,6 @@ struct RecipeForm: View {
       }
     }
     .sheet(isPresented: $isIngredientsPickerPresented, content: ingredientPicker)
-    //    .onAppear {
-    //      categories = fetchCategories()
-    //    }
   }
   
   // MARK: - Views
@@ -95,6 +92,7 @@ struct RecipeForm: View {
   private func ingredientPicker() -> some View {
     IngredientsView { selectedIngredient in
       let recipeIngredient = RecipeIngredient(ingredient: selectedIngredient, quantity: "")
+      context.insert(recipeIngredient)
       ingredients.append(recipeIngredient)
     }
   }
@@ -165,7 +163,7 @@ struct RecipeForm: View {
       Picker("Category", selection: $category) {
         Text("None").tag(Category())
         ForEach(categories) { category in
-          Text(category.name).tag(category)
+          Text(category.name).tag(category as Category?)
         }
       }
     }
@@ -310,10 +308,10 @@ struct RecipeForm: View {
         category.recipes.append(recipe)
       }
       
-      for recipeIngredient in ingredients {
-        recipeIngredient.recipe = recipe
-        context.insert(recipeIngredient)
-      }
+//      for recipeIngredient in ingredients {
+//        recipeIngredient.recipe = recipe
+//        context.insert(recipeIngredient)
+//      }
       
       
     case .edit(let recipe):
