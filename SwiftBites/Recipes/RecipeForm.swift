@@ -270,6 +270,10 @@ struct RecipeForm: View {
       context.delete(ingredient)
     }
     
+    if let category = category, let repCat = category.recipes.first(where: { $0.id == recipe.id }) {
+      context.delete(repCat)
+    }
+    
     context.delete(recipe)
     dismiss()
   }
@@ -298,10 +302,11 @@ struct RecipeForm: View {
                           category: category,
                           serving: serving,
                           time: time,
-                          ingredients: ingredients,
+                          ingredients: [],
                           instructions: instructions,
                           imageData: imageData)
       
+      recipe.ingredients = ingredients
       context.insert(recipe)
       
       if let category = category {
