@@ -266,10 +266,14 @@ struct RecipeForm: View {
     guard case .edit(let recipe) = mode else {
       fatalError("Delete unavailable in add mode")
     }
+    // Remove all ingredients from recipe object
+    ingredients.removeAll()
+    // Remove ingredients in context
     for ingredient in recipe.ingredients {
       context.delete(ingredient)
     }
     
+    // Remove category in context
     if let category = category, let repCat = category.recipes.first(where: { $0.id == recipe.id }) {
       context.delete(repCat)
     }
@@ -293,7 +297,8 @@ struct RecipeForm: View {
   }
   
   private func save() {
-    let category = categories.first(where: { $0 == self.category })
+    let category = categories.first(where: { $0 == self
+        .category })
     
     switch mode {
     case .add:

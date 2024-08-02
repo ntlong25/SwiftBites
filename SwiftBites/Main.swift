@@ -3,7 +3,6 @@ import SwiftData
 
 /// The main view that appears when the app is launched.
 struct ContentView: View {
-  @Environment(\.modelContext) private var context
 
   var body: some View {
     TabView {
