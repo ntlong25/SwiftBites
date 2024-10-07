@@ -121,6 +121,6 @@ struct RecipesView: View {
   }
 }
 
-//#Preview {
-//    RecipesView()
-//}
+#Preview {
+    RecipesView()
+}
