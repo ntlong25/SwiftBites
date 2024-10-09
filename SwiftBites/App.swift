@@ -1,30 +1,13 @@
 import SwiftUI
-import SwiftData
 
 @main
 struct SwiftBitesApp: App {
-    let container: ModelContainer
-    
-    init() {
-        let schema = Schema([
-            Recipe.self,
-            Category.self,
-            Ingredient.self,
-            RecipeIngredient.self
-        ])
-        
-        do {
-            let config = ModelConfiguration()
-            container = try ModelContainer(for: schema, configurations: config)
-        } catch {
-            fatalError("Failed to create model container: \(error)")
-        }
-    }
     
     var body: some Scene {
         WindowGroup {
+            let _ = UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
+            let _ = print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
             ContentView()
-                .modelContainer(container)
         }
     }
 }

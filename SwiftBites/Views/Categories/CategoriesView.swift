@@ -1,28 +1,10 @@
 import SwiftUI
-import SwiftData
+import RealmSwift
 
 struct CategoriesView: View {
-  @Environment(\.modelContext) private var context
-  
-  @Query(FetchDescriptor<Category>(sortBy: [SortDescriptor(\Category.name)]))
-  private var categories: [Category] = []
+    @ObservedResults(Category.self) private var categories
   
   @State private var query: String = ""
-  
-  // Search ingredients
-  var filteredCategories: [Category] {
-    let categoriesPredicate = #Predicate<Category> { $0.name.localizedStandardContains(query) }
-    
-    let descriptor = FetchDescriptor<Category>(predicate: query.isEmpty ? nil : categoriesPredicate, sortBy: [SortDescriptor(\Category.name)]
-    )
-    
-    do {
-      let filteredCategories = try context.fetch(descriptor)
-      return filteredCategories
-    } catch {
-      return []
-    }
-  }
   
 
   // MARK: - Body
@@ -54,7 +36,7 @@ struct CategoriesView: View {
     if categories.isEmpty {
       empty
     } else {
-      list(for: filteredCategories)
+      list(for: categories)
     }
   }
 
@@ -82,7 +64,7 @@ struct CategoriesView: View {
     )
   }
 
-  private func list(for categories: [Category]) -> some View {
+    private func list(for categories: Results<Category>) -> some View {
     ScrollView(.vertical) {
       if categories.isEmpty {
         noResults
@@ -97,6 +79,6 @@ struct CategoriesView: View {
 }
 
 
-//#Preview {
-//    CategoriesView()
-//}
+#Preview {
+    CategoriesView()
+}
